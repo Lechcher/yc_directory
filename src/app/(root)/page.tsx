@@ -1,9 +1,11 @@
+import Hero from '@/components/Hero'
 import React from 'react'
 
 const Home = () => {
   return (
     <>
-      <div className='heading'>Home</div>
+      <Hero heading={`Pitch Your Startup, <br/> Connect With Entrepreneurs`} subheading={`Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
+          Competitions.`} />
     </>
   )
 }
