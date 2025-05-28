@@ -1,10 +1,12 @@
-import Hero from '@/components/Hero'
+import HeroSelection from '@/components/selections/HeroSelection'
 import React from 'react'
 
-const Home = () => {
+const Home = async ({ searchParams }: { searchParams: Promise<{ query?: string | undefined }> }) => {
+  const query = (await searchParams).query;
+
   return (
     <>
-      <Hero heading={`Pitch Your Startup, <br/> Connect With Entrepreneurs`} subheading={`Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
+      <HeroSelection query={query} heading={`Pitch Your Startup, <br/> Connect With Entrepreneurs`} subheading={`Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
           Competitions.`} />
     </>
   )
