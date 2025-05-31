@@ -1,16 +1,13 @@
-// Import necessary modules from Next.js and React
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
-// Import authentication functions from the custom auth library
 import { auth, signOut, signIn } from '@/lib/auth'
 
 // Define the Navbar component as an asynchronous function
 const Navbar = async () => {
   // Fetch the current session status
   const session = await auth();
-  // Log the session details to the console (for debugging purposes)
-  console.log(session);
+  
   return (
     // Header element for the navbar
     <header className='px-5 py-3 bg-white shadow-sm font-work-sans'>
