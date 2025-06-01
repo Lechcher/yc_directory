@@ -13,7 +13,7 @@ const StartupCards = ({ query }: StartupCardsProps) => {
             author: { _id: 1, name: "John Doe" },
             _id: 1,
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            image: "https://www.pexels.com/download/video/29327044/",
+            image: "https://images.pexels.com/photos/3153201/pexels-photo-3153201.jpeg?cs=srgb&dl=pexels-canvastudio-3153201.jpg&fm=jpg",
             category: "Technology",
             title: "Tech Startup Pitch Competition",
         }
