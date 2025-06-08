@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from 'next/form'
-import SreachFormReset from './SearchFormReset'
 import { Search } from 'lucide-react'
+import SearchFormReset from './SearchFormReset'
 
 // Define the props for the SearchForm component
 interface SearchFormProps {
@@ -20,7 +20,7 @@ const SearchForm = ({query}: SearchFormProps) => {
             {/* Container for the reset button and search button */}
             <div className='flex gap-2'>
                 {/* Conditionally render SearchFormReset component if a query exists */}
-                {query && <SreachFormReset />}
+                {query && <SearchFormReset />}
 
                 {/* Search button */}
                 <button type='submit' className='search-btn text-white'>
