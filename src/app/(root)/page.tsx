@@ -1,5 +1,5 @@
-import HeroSelection from '@/components/pages/root/HeroSelection'
-import StartupCards from '@/components/pages/root/StartupCards';
+import HeroSelection from '@/components/pages/homepage/HeroSelection'
+import StartupCards from '@/components/pages/homepage/StartupCards';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 import { STARTUPS_QUERY } from '@/sanity/lib/queries';
 import React from 'react'
