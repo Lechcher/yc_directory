@@ -1,36 +1,59 @@
 /**
  * StartupCard Component
- * Displays a card representing a startup with its details including author, title, description, and metadata.
+ * Container for displaying individual startup profiles with visual hierarchy of information.
+ * Features dynamic author linking, image display, and clickable details.
  */
 
+// Standard utility imports for formatting dates and common functionality
 import { formatDate } from '@/lib/utils'
+// Import link component for post/category navigation and author avatar/image rendering
 import { EyeIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
+// Import base button component styling from UI library
 import { Button } from './ui/button'
+// Import type definitions for author and startup data models
 import { Author, Startup } from '@/sanity/types'
 
-// Type definition for the startup card data
-// Extends the Startup type but makes the author field optional
+// Enhanced type definition for card data structure: 
+// 1. Retains core startup fields (Omit excludes author from direct structure)
+// 2. Allows optional author inclusion to enable safe access patterns
+// 3. Enables flexibility between standalone cards and author-coupled cards
 export type StartupCardType = Omit<Startup, "author"> & { author?: Author };
 
 /**
- * StartupCard Component
- * @param {Object} props - Component props
- * @param {StartupCardType} props.post - The startup post data to display
+ * StartupCard Functional Component
+ * Props accept enriched startup data through StartupCardType interface
+ * @param {StartupCardType} post - Startup data object containing:
+ * - _createdAt: Auto-generated timestamp from CMS
+ * - views: User engagement tracking metric
+ * - title: Primary text label for startup
+ * - category: Strategic classification tag with linkable query
+ * - image: Visual identity of the startup
+ * - description: Summary text of the product/business
+ * - author: Optional creator information with profile linking
  */
 const StartupCard = ({ post }: { post: StartupCardType }) => {
-    // Extract all required fields from the post object
+    // Destructure CMS document fields with null-safety for optional relationships
+    // _createdAt: Content creation timestamp
+    // views: Numerical tracking of user interactions
+    // _id: Unique identifier for content linking
+
+    // Optional author fields (safe access with fallbacks enforced by ?. syntax):
+    // - author.image: Associated user avatar from CMS definitions
+    // - author.name: Display name for user tracking
+    // - author._id: UUID for profile routing
+
     const {
-        _createdAt, // Timestamp of post creation
-        views,      // View count for the post
-        author,     // Author information (optional)
-        title,      // Startup title
-        category,   // Startup category
-        _id,        // Unique identifier for the post
-        image,      // URL of the startup's image
-        description // Brief description of the startup
+        _createdAt, // Immutable document creation timestamp
+        views,        // Incremental engagement counter (CMS-managed)
+        author,       // Optional relationship to user profiles
+        title,        // Search-optimized headline text
+        category,     // Taxonomy tag for sorting/filtering
+        _id,          // Content routing identifier
+        image,        // Visual content with asset management
+        description   // CTA-oriented summary with truncation style
     } = post;
 
     return (
@@ -78,7 +101,13 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
                 <p className='startup-card_desc'>
                     {description}
                 </p>
-                <img src={image} alt='placeholder' className='startup-card_img' />
+                <Image 
+                    src={image || 'https://placehold.co/600x400'} 
+                    alt={title || 'Startup image'} 
+                    width={600}
+                    height={400}
+                    className='startup-card_img'
+                />
             </Link>
 
             {/* Footer section: Category and details button */}
@@ -98,5 +127,5 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
         </li>
     )
 }
-
+// Component should be wrapped with CSS styling and rendering capabilities
 export default StartupCard

@@ -1,11 +1,23 @@
-import React from 'react'
-import Ping from './Ping'
-import { client } from '@/sanity/lib/client'
-import { STARTUP_VIEWS_QUERY } from '@/sanity/lib/queries'
+import { STARTUP_VIEWS_QUERY } from '@/sanity/lib/queries';
+import { writeClient } from '@/sanity/lib/write-client';
+import { client } from '@/sanity/lib/client';
+import { after } from 'next/server';
+import React from 'react';
+
+import Ping from './Ping';
+
 
 const View = async ({ id }: { id: string }) => {
-    const { views: totalViews } = await client.withConfig({ useCdn: false }).fetch(STARTUP_VIEWS_QUERY, {id});
+    const result = await client.withConfig({ useCdn: false }).fetch(STARTUP_VIEWS_QUERY, { id });
+    const totalViews = result?.views || 0;
 
+    after(async () => {
+        try {
+            await writeClient.patch(id).set({ views: totalViews + 1 }).commit();
+        } catch (error) {
+            console.error('Failed to increment view count:', error);
+        }
+    });
     return (
         <div className='view-container'>
             <div className='absolute -top-2 -right-2'>
@@ -13,7 +25,7 @@ const View = async ({ id }: { id: string }) => {
             </div>
 
             <p className='view-text'>
-                <span className='font-black'>{totalViews} views</span>
+                <span className='font-black'>{totalViews == 1 ? `${totalViews} View` : `${totalViews} Views`}</span>
             </p>
         </div>
     )

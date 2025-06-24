@@ -1,37 +1,42 @@
+// Import the Link component from Next.js for client-side navigation.
 import Link from 'next/link'
+// Import React for building the component.
 import React from 'react'
+// Import the Image component from Next.js for optimized image rendering.
 import Image from 'next/image'
+// Import authentication functions (auth, signOut, signIn) from the local auth library.
 import { auth, signOut, signIn } from '@/lib/auth'
 
-// Define the Navbar component as an asynchronous function
+// Define the Navbar component as an asynchronous functional component.
+// This component handles navigation and user authentication status display.
 const Navbar = async () => {
-  // Fetch the current session status
+  // Fetch the current session status using the auth utility.
   const session = await auth();
   
   return (
-    // Header element for the navbar
+    // Header element serving as the main container for the navigation bar.
     <header className='px-5 py-3 bg-white shadow-sm font-work-sans'>
-      {/* Navigation container */}
+      {/* Navigation container, using flexbox for layout and alignment. */}
       <nav className='flex justify-between items-center'>
-        {/* Logo linking to the homepage */}
+        {/* Logo that acts as a link to the homepage. */}
         <Link href="/">
           <Image src="/logo.png" alt='logo' width={144} height={30} />
         </Link>
 
-        {/* User authentication section */}
+        {/* Container for user authentication-related elements. */}
         <div className='flex items-center gap-5'>
-          {/* Conditional rendering based on session and user existence */}
+          {/* Conditional rendering: if a session exists and a user is logged in. */}
           {session && session?.user ? (
             <>
-              {/* Link to create a new startup */}
+              {/* Link for authenticated users to create a new startup entry. */}
               <Link href="/startup/create">
                 <span>Create</span>
               </Link>
 
-              {/* Logout form */}
+              {/* Form for logging out the user. */}
               <form action={async () => {
-                "use server" // Directive for server-side action
-                // Sign out the user and redirect to the homepage
+                "use server" // Specifies that this action runs on the server.
+                // Signs out the user and redirects them to the homepage.
                 await signOut({redirectTo: "/"})
               }}>
                 <button type='submit'>
@@ -39,17 +44,16 @@ const Navbar = async () => {
                 </button>
               </form>
 
-              {/* Link to the user's profile page */}
+              {/* Link to the user's profile page, displaying their name. */}
               <Link href={`/user/${session?.id}`}>
-                {/* Display the user's name */}
                 <span>{session?.user?.name}</span>
               </Link>
             </>
           ) : (
-            // Login form (if no active session)
+            // Conditional rendering: if no active session, display a login form.
             <form action={async () => {
-              "use server" // Directive for server-side action
-              // Sign in the user using GitHub authentication
+              "use server" // Specifies that this action runs on the server.
+              // Initiates the sign-in process using GitHub authentication.
               await signIn('github')
             }}>
               <button type='submit'>
@@ -63,5 +67,5 @@ const Navbar = async () => {
   )
 }
 
-// Export the Navbar component as the default export
+// Export the Navbar component as the default export.
 export default Navbar

@@ -1,46 +1,25 @@
+// Import necessary types for post details and a utility function for date formatting.
+import { DetailProps } from '@/app/(root)/startup/[id]/page';
 import { formatDate } from '@/lib/utils';
 import React from 'react'
 
-// Define the props interface for the HeroSelection component
-interface HeroSelectionProps {
-    post: { // The 'post' object contains details about a startup or project
-        author: { // Information about the author of the post
-            bio: string,
-            image: string,
-            name: string,
-            username: string,
-            _id: string
-        },
-        description: string, // A brief description of the post
-        category: string, 
-        image: string, // URL of the main image for the post
-        pitch: string, // The elevator pitch for the startup/project
-        slug: { // Slug for the post, used in URLs
-            current: string,
-            _type: string
-        },
-        title: string, // The title of the post
-        views: number, // Number of views the post has received
-        _createdAt: string, // Timestamp when the post was created
-        _id: string, // Unique identifier for the post
-    };
-}
-
-// HeroSelection functional component that displays key information about a post
-const HeroSelection = ({post}: HeroSelectionProps) => {
+// HeroSelection functional component responsible for displaying key information about a startup post.
+// It receives a 'post' object containing the details to be displayed.
+const HeroSelection = ({ post }: { post: DetailProps }) => {
     return (
         <>
-            {/* Section for displaying the hero content with a pink background */}
+            {/* Section container for the hero content, styled with a pink background and a minimum height. */}
             <section className='pink_container !min-h-[230px]'>
-                {/* Display the formatted creation date of the post */}
-                <p className='tag'>{formatDate(post._createdAt)}</p>
-                {/* Display the title of the post */}
+                {/* Displays the formatted creation date of the post. If the date is not available, it shows an error message. */}
+                <p className='tag'>{post._createdAt ? formatDate(post._createdAt) : "Error to format date"}</p>
+                {/* Displays the main title of the post. */}
                 <h1 className='heading'>{post.title}</h1>
-                {/* Display the description of the post, with a max height constraint */}
+                {/* Displays the description of the post, with a maximum height constraint for better presentation. */}
                 <p className='sub-heading !max-h-5xl'>{post.description}</p>
             </section>
         </>
     )
 }
 
+// Exports the HeroSelection component as the default export.
 export default HeroSelection
