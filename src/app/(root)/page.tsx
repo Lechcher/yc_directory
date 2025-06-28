@@ -1,61 +1,61 @@
-// Import necessary components and types for the homepage.
-import HeroSelection from '@/components/pages/homepage/HeroSelection'
+// Import HeroSelection component from the components directory
+import HeroSelection from '@/components/pages/homepage/HeroSelection';
+// Import StartupCards component for displaying startup data
 import StartupCards from '@/components/pages/homepage/StartupCards';
-import { StartupCardType } from '@/components/StartupCard';
-import { auth } from '@/lib/auth';
-// Import Sanity-related utilities for data fetching and live updates.
+// Import sanityFetch and SanityLive for real-time data fetching and live updates
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
+// Import StartupCardType for type definitions
+import { StartupCardType } from '@/components/StartupCard';
+// Import STARTUPS_QUERY for fetching startup data from Sanity
 import { STARTUPS_QUERY } from '@/sanity/lib/queries';
-import React from 'react'
+// Import auth for session management
+import { auth } from '@/lib/auth';
+import React from 'react';
+
 
 /**
- * Home component serves as the main page for displaying startup listings.
- * It fetches startup data based on an optional search query and renders it.
- * @param {object} props - The component's properties.
- * @param {Promise<{ query?: string | undefined }>} props.searchParams - URL search parameters, potentially containing a 'query' string.
- * @returns {JSX.Element} The JSX element for the homepage, including a hero section and startup cards.
+ * Page component for the startup homepage
+ * Handles dynamic query parameters and fetches startup data
  */
-const Home = async ({ searchParams }: { searchParams: Promise<{ query?: string | undefined }> }) => {
-  /**
-   * Extracts the search query from the URL search parameters.
-   * The query is awaited as searchParams is a Promise.
-   */
+const page = async ({ searchParams }: { searchParams: Promise<{ query?: string | undefined }> }) => {
+  // Extract query parameter from searchParams
   const query = (await searchParams).query;
-  // Prepares parameters for the Sanity fetch, setting 'search' to the query or null if no query exists.
+  // Set default parameters for the query
   const params = { search: query || null };
 
+  // Authenticate user session
   const session = await auth();
 
+  // Log user session ID for debugging
   console.log(session?.id);
 
-  /**
-   * Fetches startup data from the Sanity CMS.
-   * It uses the STARTUPS_QUERY and passes the prepared parameters.
-   * @todo Implement robust error handling for potential API call failures to improve user experience.
-   */
-  const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
+  try {
+    // Fetch startup data using the STARTUPS_QUERY with parameters
+    const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
 
-  // Logs the fetched posts to the console for debugging purposes.
-  console.log(posts);
+    // Log fetched posts for debugging
+    console.log(posts);
 
-  return (
-    <>
-      {/* Renders the HeroSelection component, providing the current query, a main heading, and a subheading. */}
-      <HeroSelection 
-        query={query}
-        heading={`Pitch Your Startup, <br/> Connect With Entrepreneurs`}
-        subheading={`Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
-          Competitions.`} 
-      />
-      {/* Renders the StartupCards component, passing the fetched posts (type-casted) and the query. */}
-      <StartupCards posts={posts as unknown as StartupCardType[]} query={query} />
-      {/* Integrates SanityLive component to enable real-time updates from the Sanity CMS. */}
-      <SanityLive></SanityLive>
-    </>
-  )
+    return (
+      <>
+        {/* Render HeroSelection component with query and heading/subheading */}
+        <HeroSelection
+          query={query}
+          heading={`Pitch Your Startup, <br/> Connect With Entrepreneurs`}
+          subheading={`Submit Ideas, Vote on Pitches, and Get Noticed in Virtual Competitions.`}
+        />
+        {/* Render StartupCards component with fetched posts */}
+        <StartupCards posts={posts as unknown as StartupCardType[]} query={query} />
+        {/* Enable real-time updates with SanityLive */}
+        <SanityLive />
+      </>
+    )
+  } catch (error) {
+    // Handle error by logging and displaying an error message
+    console.error("Failed to fetch startup data", error);
+    return <div>Error fetching startup data</div>
+  }
 }
 
-/**
- * Exports the Home component as the default export for the page.
- */
-export default Home
+// Export the default page component
+export default page
