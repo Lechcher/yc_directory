@@ -8,3 +8,5 @@ export const formatDate = (date: string | number | Date) => new Date(date).toLoc
   day: "numeric",
   year: "numeric"
 });
+
+export const parseServerActionResponse = <T>(response: T) => JSON.parse(JSON.stringify(response));
