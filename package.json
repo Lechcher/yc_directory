@@ -13,13 +13,15 @@
   },
   "overrides": {
     "react": "$react",
-    "react-dom": "$react-dom"
+    "react-dom": "$react-dom",
+    "next": "$next"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-toast": "^1.2.14",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.92.0",
+    "@sentry/nextjs": "^9.34.0",
     "@uiw/react-md-editor": "^4.0.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
