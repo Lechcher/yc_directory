@@ -5,7 +5,7 @@
  */
 
 // Standard utility imports for formatting dates and common functionality
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 // Import link component for post/category navigation and author avatar/image rendering
 import { EyeIcon } from "lucide-react";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 // Import type definitions for author and startup data models
 import { Author, Startup } from "@/sanity/types";
+import { Skeleton } from "./ui/skeleton";
 
 // Enhanced type definition for card data structure:
 // 1. Retains core startup fields (Omit excludes author from direct structure)
@@ -121,5 +122,15 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
     </li>
   );
 };
+
+export const StartupCardSkeleton = () => (
+  <>
+    {[0, 1, 2, 3, 4].map((index: number) => (
+      <li key={cn("skeleton", index)}>
+        <Skeleton className="startup-card_skeleton" />
+      </li>
+    ))}
+  </>
+);
 // Component should be wrapped with CSS styling and rendering capabilities
 export default StartupCard;
