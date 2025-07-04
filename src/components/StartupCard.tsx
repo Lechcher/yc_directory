@@ -123,8 +123,10 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
   );
 };
 
+// StartupCardSkeleton component provides a loading state for the StartupCard.
 export const StartupCardSkeleton = () => (
   <>
+    {/* Renders multiple skeleton cards to indicate loading */}
     {[0, 1, 2, 3, 4].map((index: number) => (
       <li key={cn("skeleton", index)}>
         <Skeleton className="startup-card_skeleton" />
