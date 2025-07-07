@@ -51,27 +51,28 @@ export interface DetailProps {
   _id?: string; // Document ID for cross-referencing operations
 }
 
+// Defines the structure for a playlist of startup entries, typically used for editor picks or curated lists.
 export type PlaylistTypes = Array<{
-  _id: string;
-  title: string;
-  slug: string;
-  select: {
-    _id: string;
-    _createdAt: string;
-    title: string;
-    slug: string;
-    author: {
-      _id: string;
-      name: string;
-      slug: string;
-      image: string;
-      bio: string;
+  _id: string; // Unique identifier for the playlist item.
+  title: string; // Title of the playlist item.
+  slug: string; // Slug for URL generation, ensuring unique and readable URLs.
+  select: { // Nested object containing detailed information about the selected startup.
+    _id: string; // Unique ID of the startup.
+    _createdAt: string; // Timestamp indicating when the startup was created.
+    title: string; // Title of the startup.
+    slug: string; // Slug for the startup's detail page.
+    author: { // Information about the author/creator of the startup.
+      _id: string; // Author's unique ID.
+      name: string; // Author's name.
+      slug: string; // Author's slug for their profile page.
+      image: string; // URL to the author's profile image.
+      bio: string; // Author's short biography.
     };
-    views: number;
-    description: string;
-    category: string;
-    image: string;
-    pitch: string;
+    views: number; // Number of views the startup has received.
+    description: string; // A brief description of the startup.
+    category: string; // The category the startup belongs to.
+    image: string; // URL to the startup's main image.
+    pitch: string; // The startup's elevator pitch.
   };
 }>;
 
